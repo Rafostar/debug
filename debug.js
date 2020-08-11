@@ -98,7 +98,26 @@ var Debugger = class
 
     _debug(debug_text)
     {
-        if(!debug_text || !this.enabled) return;
+        if(!this.enabled)
+            return;
+
+        switch(typeof debug_text) {
+            case 'string':
+                break;
+            case 'object':
+                if(debug_text !== null && debug_text.constructor !== RegExp) {
+                    debug_text = JSON.stringify(debug_text, null, 2);
+                    break;
+                }
+            default:
+                debug_text = String(debug_text);
+                break;
+        }
+
+        if(!debug_text.length)
+            debug_text = ' ';
+        else
+            debug_text = ' ' + debug_text + ' ';
 
         let debug_time = Date.now() - this._lastDebug;
 
@@ -121,11 +140,11 @@ var Debugger = class
                 case 'name':
                     str += this.debug_name;
                     break;
+                case 'text':
+                    str += debug_text;
+                    break;
                 case 'time':
                     str += '+' + debug_time;
-                    break;
-                default:
-                    str += ' ' + debug_text + ' ';
                     break;
             }
         }
