@@ -5,28 +5,38 @@ const TERM_ESC = '\x1b[';
 const TERM_RESET = '0m';
 
 var TextColor = {
+    WHITE: '97m',
     BLACK: '30m',
-    BRIGHT_BLACK: '30;1m',
     RED: '31m',
-    BRIGHT_RED: '31;1m',
     GREEN: '32m',
-    BRIGHT_GREEN: '32;1m',
     YELLOW: '33m',
-    BRIGHT_YELLOW: '33;1m',
     BLUE: '34m',
-    BRIGHT_BLUE: '34;1m',
-    PURPLE: '35m',
-    BRIGHT_PURPLE: '35;1m',
+    MAGENTA: '35m',
     CYAN: '36m',
-    BRIGHT_CYAN: '36;1m',
-    WHITE: '37m',
-    BRIGHT_WHITE: '37;1m',
+    LIGHT_GRAY: '37m',
+    DARK_GRAY: '90m',
+    LIGHT_RED: '91m',
+    LIGHT_GREEN: '92m',
+    LIGHT_YELLOW: '93m',
+    LIGHT_BLUE: '94m',
+    LIGHT_MAGENTA: '95m',
+    LIGHT_CYAN: '96m',
+    BROWN: '38;5;94m',
+    LIGHT_BROWN: '38;5;130m',
+    PINK: '38;5;205m',
+    LIGHT_PINK: '38;5;211m',
 };
 
 var TextFont = {
     REGULAR: 0,
     BOLD: 1,
-    UNDERLINE: 2,
+    DIM: 2,
+    ITALIC: 3,
+    UNDERLINE: 4,
+    BLINK: 5,
+    REVERSE: 7,
+    HIDDEN: 8,
+    STRIKEOUT: 9,
 };
 
 var Debugger = class
@@ -37,20 +47,20 @@ var Debugger = class
 
         this.debug_name = (name && typeof name === 'string') ? name : 'GJS';
 
-        this.enabled    = opts.enabled    || this._enabledAtStart;
-        this.name_font  = opts.name_font  || TextFont.BOLD;
-        this.name_color = opts.name_color || this._getColorFromText(this.debug_name);
-        this.text_font  = opts.text_font  || TextFont.REGULAR;
-        this.text_color = opts.text_color || null;
-        this.time_font  = opts.time_font  || TextFont.REGULAR;
-        this.time_color = opts.time_color || this.name_color;
+        this.enabled       = opts.enabled       || this._enabledAtStart;
+        this.name_font     = opts.name_font     || TextFont.BOLD;
+        this.name_color    = opts.name_color    || this._getColorFromText(this.debug_name);
+        this.message_font  = opts.message_font  || TextFont.REGULAR;
+        this.message_color = opts.message_color || null;
+        this.time_font     = opts.time_font     || TextFont.REGULAR;
+        this.time_color    = opts.time_color    || this.name_color;
 
         this._lastDebug = Date.now();
     }
 
     get debug()
     {
-        return text => this._debug(text);
+        return message => this._debug(message);
     }
 
     get _enabledAtStart()
@@ -93,31 +103,31 @@ var Debugger = class
             total += Number(text.charCodeAt(textLength).toString(10));
 
         /* Return color excluding black and white (for visibility) */
-        return TextColor[colorsArr[total % (colorsArr.length - 4) + 2]];
+        return TextColor[colorsArr[total % (colorsArr.length - 2) + 2]];
     }
 
-    _debug(debug_text)
+    _debug(debug_message)
     {
         if(!this.enabled)
             return;
 
-        switch(typeof debug_text) {
+        switch(typeof debug_message) {
             case 'string':
                 break;
             case 'object':
-                if(debug_text !== null && debug_text.constructor !== RegExp) {
-                    debug_text = JSON.stringify(debug_text, null, 2);
+                if(debug_message !== null && debug_message.constructor !== RegExp) {
+                    debug_message = JSON.stringify(debug_message, null, 2);
                     break;
                 }
             default:
-                debug_text = String(debug_text);
+                debug_message = String(debug_message);
                 break;
         }
 
-        if(!debug_text.length)
-            debug_text = ' ';
+        if(!debug_message.length)
+            debug_message = ' ';
         else
-            debug_text = ' ' + debug_text + ' ';
+            debug_message = ' ' + debug_message + ' ';
 
         let debug_time = Date.now() - this._lastDebug;
 
@@ -127,7 +137,7 @@ var Debugger = class
             debug_time = Math.floor(debug_time / 1000) + 's';
 
         let str = '';
-        for(let param of ['name', 'text', 'time']) {
+        for(let param of ['name', 'message', 'time']) {
             str += TERM_ESC;
             str += (
                 this[param + '_font'] >= 0
@@ -140,8 +150,8 @@ var Debugger = class
                 case 'name':
                     str += this.debug_name;
                     break;
-                case 'text':
-                    str += debug_text;
+                case 'message':
+                    str += debug_message;
                     break;
                 case 'time':
                     str += '+' + debug_time;
