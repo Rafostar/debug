@@ -39,7 +39,7 @@ var Debugger = class
 
         this.enabled    = opts.enabled    || this._enabledAtStart;
         this.name_font  = opts.name_font  || TextFont.BOLD;
-        this.name_color = opts.name_color || this._getDefaultColor(this.debug_name);
+        this.name_color = opts.name_color || this._getColorFromText(this.debug_name);
         this.text_font  = opts.text_font  || TextFont.REGULAR;
         this.text_color = opts.text_color || null;
         this.time_font  = opts.time_font  || TextFont.REGULAR;
@@ -83,6 +83,19 @@ var Debugger = class
         });
     }
 
+    _getColorFromText(text)
+    {
+        let colorsArr = Object.keys(TextColor);
+        let textLength = text.length;
+        let total = 0;
+
+        while(textLength--)
+            total += Number(text.charCodeAt(textLength).toString(10));
+
+        /* Return color excluding black and white (for visibility) */
+        return TextColor[colorsArr[total % (colorsArr.length - 4) + 2]];
+    }
+
     _debug(debug_text)
     {
         if(!debug_text || !this.enabled) return;
@@ -121,18 +134,5 @@ var Debugger = class
         printerr(str);
 
         this._lastDebug = Date.now();
-    }
-
-    _getDefaultColor(text)
-    {
-        let colorsArr = Object.keys(TextColor);
-        let textLength = text.length;
-        let total = 0;
-
-        while(textLength--)
-            total += Number(text.charCodeAt(textLength).toString(10));
-
-        /* Return color excluding black and white (for visibility) */
-        return TextColor[colorsArr[total % (colorsArr.length - 4) + 2]];
     }
 }
