@@ -46,8 +46,13 @@ var Debugger = class
         opts = (opts && typeof opts === 'object') ? opts : {};
 
         this.debug_name = (name && typeof name === 'string') ? name : 'GJS';
+        this.enabled = (
+            opts.hasOwnProperty('enabled')
+            && typeof opts.enabled === 'boolean'
+        )
+            ? opts.enabled
+            : this._enabledAtStart;
 
-        this.enabled       = opts.enabled       || this._enabledAtStart;
         this.name_font     = opts.name_font     || TextFont.BOLD;
         this.name_color    = opts.name_color    || this._getColorFromText(this.debug_name);
         this.message_font  = opts.message_font  || TextFont.REGULAR;
