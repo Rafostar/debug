@@ -1,4 +1,9 @@
 # gjs-debug
+[![License](https://img.shields.io/github/license/Rafostar/gjs-debug.svg)](https://github.com/Rafostar/gjs-debug/blob/master/COPYING)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFVDFD88KQ322)
+[![Donate](https://img.shields.io/badge/Donate-PayPal.Me-lightgrey.svg)](https://www.paypal.me/Rafostar)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/Rafostar/gjs-debug.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FRafostar%2Fgjs-debug)
+
 A tiny GJS debugging script modeled after Node.js debugging technique.
 
 ## Installation
@@ -89,3 +94,8 @@ loop.run();
 myApp.debug('code finished');
 ```
 [<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/advanced.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/advanced.png)
+
+## Donation
+If you like my work please support it by buying me a cup of coffee :-)
+
+[![PayPal](https://github.com/Rafostar/gnome-shell-extension-cast-to-tv/wiki/images/paypal.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFVDFD88KQ322)
