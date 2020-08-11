@@ -1,3 +1,6 @@
+const { GLib } = imports.gi;
+
+const DEBUG_ENV = GLib.getenv('DEBUG');
 const TERM_ESC = '\x1b[';
 const TERM_RESET = '0m';
 
@@ -32,9 +35,9 @@ var Debugger = class
     {
         opts = (opts && typeof opts === 'object') ? opts : {};
 
-        this.enabled = opts.enabled || false;
         this.debug_name = (name && typeof name === 'string') ? name : 'GJS';
 
+        this.enabled    = opts.enabled    || this._enabledAtStart;
         this.name_font  = opts.name_font  || TextFont.BOLD;
         this.name_color = opts.name_color || this._getDefaultColor(this.debug_name);
         this.text_font  = opts.text_font  || TextFont.REGULAR;
@@ -47,7 +50,37 @@ var Debugger = class
 
     get debug()
     {
-        return (text) => this._debug(text);
+        return text => this._debug(text);
+    }
+
+    get _enabledAtStart()
+    {
+        if(!DEBUG_ENV)
+		return false;
+
+        let envArr = DEBUG_ENV.split(',');
+
+        return envArr.some(el => {
+            if(el === this.debug_name || el === '*')
+                return true;
+
+            let searchType;
+            let offset = 0;
+
+            if(el.startsWith('*')) {
+                searchType = 'ends';
+            } else if(el.endsWith('*')) {
+                searchType = 'starts';
+                offset = 1;
+            }
+
+            if(!searchType)
+                return false;
+
+            return this.debug_name[searchType + 'With'](
+                el.substring(1 - offset, el.length - offset)
+            );
+        });
     }
 
     _debug(debug_text)
