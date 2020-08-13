@@ -1,23 +1,42 @@
 const { GLib, Soup } = imports.gi;
-const Debug = imports.debug;
+const { Debug } = imports.debug;
+const { Ink } = imports.ink;
 
-const { Debugger } = Debug;
-
-let myApp = new Debugger('myapp', {
-    name_color: Debug.TextColor.LIGHT_BLUE,
-    message_color: Debug.TextColor.GREEN,
-    time_color: Debug.TextColor.LIGHT_RED,
-    time_font: Debug.TextFont.BLINK
+let myApp = new Debug.Debugger('myapp', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.LIGHT_BLUE
+    }),
+    message_printer: new Ink.Printer({
+        color: Ink.TextColor.GREEN
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.BLINK,
+        color: Ink.TextColor.LIGHT_RED
+    }),
+    enabled: true
 });
 
-let workerA = new Debugger('worker:a', {
-    name_color: Debug.TextColor.LIGHT_MAGENTA,
-    time_font: Debug.TextFont.UNDERLINE
+let workerA = new Debug.Debugger('worker:a', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.LIGHT_MAGENTA
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.UNDERLINE,
+        color: Ink.TextColor.LIGHT_MAGENTA
+    })
 });
 
-let workerB = new Debugger('worker:b', {
-    name_color: Debug.TextColor.YELLOW,
-    time_font: Debug.TextFont.UNDERLINE
+let workerB = new Debug.Debugger('worker:b', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.YELLOW
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.UNDERLINE,
+        color: Ink.TextColor.YELLOW
+    })
 });
 
 function onChunkDownload(message, chunk)

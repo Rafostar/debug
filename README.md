@@ -7,11 +7,16 @@
 A tiny GJS debugging script modeled after Node.js debugging technique.
 
 ## Installation
-Just copy `debug.js` to `/usr/share/gjs-1.0` folder.
-Alternatively download it to any other folder and export that folder path with `GJS_PATH` environment variable.
+Clone repo into `/usr/share/gjs-1.0/debug` folder.
+```shell
+git clone https://github.com/Rafostar/gjs-debug.git /usr/share/gjs-1.0/debug
+```
+Alternatively download it to `debug` folder in any other location and export that location path with `GJS_PATH` environment variable.
+
+For colored text [Ink](https://github.com/Rafostar/gjs-ink) module is required.
 
 ## Guide
-The `debug.js` script includes single class named `Debugger`.
+The `Debug.js` script includes single class named `Debugger`.
 
 When creating new object from it, pass the name in form of a string as first argument and optionally an object
 containing initial configuration options as second arg.
@@ -22,43 +27,62 @@ The `*` character may be used as a wildcard.
 For more information about available config options visit [wiki](https://github.com/Rafostar/gjs-debug/wiki).
 
 ## Examples
-#### [simple.js](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/examples/simple.js)
+#### [basic.js](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/examples/basic.js)
 ```shell
-DEBUG=* gjs ./simple.js
+DEBUG=* gjs ./examples/basic.js
 ```
 ```javascript
-const { Debugger } = imports.debug;
-let { debug } = new Debugger('myapp');
+const { Debug } = imports.debug;
+let { debug } = new Debug.Debugger('myapp');
 
 debug('debug is working!');
 ```
-[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/simple.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/simple.png)
+[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/basic.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/basic.png)
 
 #### [advanced.js](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/examples/advanced.js)
 ```shell
-DEBUG=* gjs ./advanced.js
+DEBUG=* gjs ./examples/advanced.js
 ```
 ```javascript
 const { GLib, Soup } = imports.gi;
-const Debug = imports.debug;
+const { Debug } = imports.debug;
+const { Ink } = imports.ink;
 
-const { Debugger } = Debug;
-
-let myApp = new Debugger('myapp', {
-    name_color: Debug.TextColor.LIGHT_BLUE,
-    message_color: Debug.TextColor.GREEN,
-    time_color: Debug.TextColor.LIGHT_RED,
-    time_font: Debug.TextFont.BLINK
+let myApp = new Debug.Debugger('myapp', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.LIGHT_BLUE
+    }),
+    message_printer: new Ink.Printer({
+        color: Ink.TextColor.GREEN
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.BLINK,
+        color: Ink.TextColor.LIGHT_RED
+    }),
+    enabled: true
 });
 
-let workerA = new Debugger('worker:a', {
-    name_color: Debug.TextColor.LIGHT_MAGENTA,
-    time_font: Debug.TextFont.UNDERLINE
+let workerA = new Debug.Debugger('worker:a', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.LIGHT_MAGENTA
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.UNDERLINE,
+        color: Ink.TextColor.LIGHT_MAGENTA
+    })
 });
 
-let workerB = new Debugger('worker:b', {
-    name_color: Debug.TextColor.YELLOW,
-    time_font: Debug.TextFont.UNDERLINE
+let workerB = new Debug.Debugger('worker:b', {
+    name_printer: new Ink.Printer({
+        font: Ink.TextFont.BOLD,
+        color: Ink.TextColor.YELLOW
+    }),
+    time_printer: new Ink.Printer({
+        font: Ink.TextFont.UNDERLINE,
+        color: Ink.TextColor.YELLOW
+    })
 });
 
 function onChunkDownload(message, chunk)
@@ -93,7 +117,7 @@ loop.run();
 
 myApp.debug('code finished');
 ```
-[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/advanced.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/images/advanced.png)
+[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/advanced.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/advanced.png)
 
 ## Donation
 If you like my work please support it by buying me a cup of coffee :-)
