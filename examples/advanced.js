@@ -4,38 +4,38 @@ const { Ink } = imports.ink;
 
 let myApp = new Debug.Debugger('myapp', {
     name_printer: new Ink.Printer({
-        font: Ink.TextFont.BOLD,
-        color: Ink.TextColor.LIGHT_BLUE
+        font: Ink.Font.BOLD,
+        color: Ink.Color.LIGHT_BLUE
     }),
     message_printer: new Ink.Printer({
-        color: Ink.TextColor.GREEN
+        color: Ink.Color.GREEN
     }),
     time_printer: new Ink.Printer({
-        font: Ink.TextFont.BLINK,
-        color: Ink.TextColor.LIGHT_RED
+        font: Ink.Font.BLINK,
+        color: Ink.Color.LIGHT_RED
     }),
     enabled: true
 });
 
 let workerA = new Debug.Debugger('worker:a', {
     name_printer: new Ink.Printer({
-        font: Ink.TextFont.BOLD,
-        color: Ink.TextColor.LIGHT_MAGENTA
+        font: Ink.Font.BOLD,
+        color: Ink.Color.LIGHT_MAGENTA
     }),
     time_printer: new Ink.Printer({
-        font: Ink.TextFont.UNDERLINE,
-        color: Ink.TextColor.LIGHT_MAGENTA
+        font: Ink.Font.UNDERLINE,
+        color: Ink.Color.LIGHT_MAGENTA
     })
 });
 
 let workerB = new Debug.Debugger('worker:b', {
     name_printer: new Ink.Printer({
-        font: Ink.TextFont.BOLD,
-        color: Ink.TextColor.YELLOW
+        font: Ink.Font.BOLD,
+        color: Ink.Color.YELLOW
     }),
     time_printer: new Ink.Printer({
-        font: Ink.TextFont.UNDERLINE,
-        color: Ink.TextColor.YELLOW
+        font: Ink.Font.UNDERLINE,
+        color: Ink.Color.YELLOW
     })
 });
 

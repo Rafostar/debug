@@ -94,11 +94,12 @@ var Debugger = class
         if(!Ink)
             return this._getDefaultPrinter();
 
-        let printer = new Ink.Printer();
-        printer.color = printer._getValueFromText(this.name);
+        let printer = new Ink.Printer({
+            color: Ink.colorFromText(this.name)
+        });
 
         if(isBold)
-            printer.font = Ink.TextFont.BOLD;
+            printer.font = Ink.Font.BOLD;
 
         return printer;
     }
