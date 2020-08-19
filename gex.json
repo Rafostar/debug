@@ -1,0 +1,16 @@
+{
+  "name": "debug",
+  "files": [
+    "Debug.js"
+  ],
+  "dependencies": {
+    "ink": {
+      "repo": "Rafostar/ink",
+      "version": "master"
+    }
+  },
+  "examples": {
+    "basic": "examples/basic.js",
+    "advanced": "examples/advanced.js"
+  }
+}
