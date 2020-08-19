@@ -1,15 +1,15 @@
-# gjs-debug
-[![License](https://img.shields.io/github/license/Rafostar/gjs-debug.svg)](https://github.com/Rafostar/gjs-debug/blob/master/COPYING)
+# debug
+[![License](https://img.shields.io/github/license/Rafostar/debug.svg)](https://github.com/Rafostar/debug/blob/master/COPYING)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFVDFD88KQ322)
 [![Donate](https://img.shields.io/badge/Donate-PayPal.Me-lightgrey.svg)](https://www.paypal.me/Rafostar)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/Rafostar/gjs-debug.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FRafostar%2Fgjs-debug)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/Rafostar/debug.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FRafostar%2Fdebug)
 
 A tiny GJS debugging script modeled after Node.js debugging technique.
 
 ## Installation
 Clone repo into `/usr/share/gjs-1.0/debug` folder.
 ```shell
-git clone https://github.com/Rafostar/gjs-debug.git /usr/share/gjs-1.0/debug
+git clone https://github.com/Rafostar/debug.git /usr/share/gjs-1.0/debug
 ```
 Alternatively download it to `debug` folder in any other location and export that location path with `GJS_PATH` environment variable.
 
@@ -24,10 +24,10 @@ containing initial configuration options as second arg.
 On startup `DEBUG` environment variable is used to automatically enable debug functions with matching names.
 The `*` character may be used as a wildcard.
 
-For more information about available config options visit [wiki](https://github.com/Rafostar/gjs-debug/wiki).
+For more information about available config options visit [wiki](https://github.com/Rafostar/debug/wiki).
 
 ## Examples
-#### [basic.js](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/examples/basic.js)
+#### [basic.js](https://raw.githubusercontent.com/Rafostar/debug/master/examples/basic.js)
 ```shell
 DEBUG=* gjs ./examples/basic.js
 ```
@@ -37,9 +37,9 @@ let { debug } = new Debug.Debugger('myapp');
 
 debug('debug is working!');
 ```
-[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/basic.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/basic.png)
+[<img src="https://raw.githubusercontent.com/Rafostar/debug/media/images/basic.png">](https://raw.githubusercontent.com/Rafostar/debug/media/images/basic.png)
 
-#### [advanced.js](https://raw.githubusercontent.com/Rafostar/gjs-debug/master/examples/advanced.js)
+#### [advanced.js](https://raw.githubusercontent.com/Rafostar/debug/master/examples/advanced.js)
 ```shell
 DEBUG=* gjs ./examples/advanced.js
 ```
@@ -98,7 +98,7 @@ let session = new Soup.Session();
 workerA.debug('created new soup session');
 
 let message = Soup.Message.new(
-    'GET', 'https://raw.githubusercontent.com/Rafostar/gjs-debug/master/README.md'
+    'GET', 'https://raw.githubusercontent.com/Rafostar/debug/master/README.md'
 );
 workerA.debug('created new soup message');
 message.connect('got_chunk', onChunkDownload.bind(this));
@@ -117,7 +117,7 @@ loop.run();
 
 myApp.debug('code finished');
 ```
-[<img src="https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/advanced.png">](https://raw.githubusercontent.com/Rafostar/gjs-debug/media/images/advanced.png)
+[<img src="https://raw.githubusercontent.com/Rafostar/debug/media/images/advanced.png">](https://raw.githubusercontent.com/Rafostar/debug/media/images/advanced.png)
 
 ## Donation
 If you like my work please support it by buying me a cup of coffee :-)
