@@ -129,8 +129,8 @@ var Debugger = class
             case 'object':
                 if(
                     message !== null
-                    && message.constructor !== RegExp
-                    && message.constructor !== Error
+                    && (message.constructor === Object
+                    || message.constructor === Array)
                 ) {
                     message = JSON.stringify(message, null, this.json_space);
                     break;
