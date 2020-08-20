@@ -27,12 +27,13 @@ var Debugger = class
         this.name_printer    = opts.name_printer    || this._getInkPrinter(true);
         this.message_printer = opts.message_printer || this._getDefaultPrinter();
         this.time_printer    = opts.time_printer    || this._getInkPrinter();
+        this.high_precision  = opts.high_precision  || false;
 
         if(typeof opts.color !== 'undefined')
             this.color = opts.color;
 
         this._isEnabled = false;
-        this._lastDebug = Date.now();
+        this._lastDebug = GLib.get_monotonic_time();
 
         this.enabled = (typeof opts.enabled !== 'undefined')
             ? opts.enabled : this._enabledAtStart;
@@ -154,10 +155,22 @@ var Debugger = class
                 break;
         }
 
-        let time = Date.now() - this._lastDebug;
-        time = (time < 1000)
-            ? '+' + time + 'ms'
-            : '+' + Math.floor(time / 1000) + 's';
+        let time = GLib.get_monotonic_time() - this._lastDebug;
+
+        if(!this.high_precision) {
+            time = (time < 1000)
+                ? '+0ms'
+                : (time < 1000000)
+                ? '+' + Math.floor(time / 1000) + 'ms'
+                : '+' + Math.floor(time / 1000000) + 's';
+        }
+        else {
+            time = (time < 1000)
+                ? '+' + time + 'µs'
+                : (time < 1000000)
+                ? '+' + (time / 1000).toFixed(3) + 'ms'
+                : '+' + (time / 1000000).toFixed(3) + 's';
+        }
 
         printerr(
             this.name_printer.getPainted(this.name),
@@ -165,6 +178,6 @@ var Debugger = class
             this.time_printer.getPainted(time)
         );
 
-        this._lastDebug = Date.now();
+        this._lastDebug = GLib.get_monotonic_time();
     }
 }

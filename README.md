@@ -48,7 +48,8 @@ const { Debug } = imports.debug;
 const { Ink } = imports.ink;
 
 let myapp = new Debug.Debugger('myapp', {
-    color: Ink.Color.PINK
+    color: Ink.Color.PINK,
+    high_precision: true
 });
 let { debug } = myapp;
 
