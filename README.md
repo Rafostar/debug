@@ -39,6 +39,26 @@ debug('debug is working!');
 ```
 [<img src="https://raw.githubusercontent.com/Rafostar/debug/media/images/basic.png">](https://raw.githubusercontent.com/Rafostar/debug/media/images/basic.png)
 
+#### [color.js](https://raw.githubusercontent.com/Rafostar/debug/master/examples/color.js)
+```shell
+DEBUG=* gjs ./examples/color.js
+```
+```javascript
+const { Debug } = imports.debug;
+const { Ink } = imports.ink;
+
+let myapp = new Debug.Debugger('myapp', {
+    color: Ink.Color.PINK
+});
+let { debug } = myapp;
+
+debug('name and time are pink!');
+
+myapp.color = Ink.colorFromRGB(0, 206, 209);
+debug('color changed to "turquoise"');
+```
+[<img src="https://raw.githubusercontent.com/Rafostar/debug/media/images/color.png">](https://raw.githubusercontent.com/Rafostar/debug/media/images/color.png)
+
 #### [advanced.js](https://raw.githubusercontent.com/Rafostar/debug/master/examples/advanced.js)
 ```shell
 DEBUG=* gjs ./examples/advanced.js

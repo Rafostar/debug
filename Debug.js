@@ -28,6 +28,9 @@ var Debugger = class
         this.message_printer = opts.message_printer || this._getDefaultPrinter();
         this.time_printer    = opts.time_printer    || this._getInkPrinter();
 
+        if(typeof opts.color !== 'undefined')
+            this.color = opts.color;
+
         this._isEnabled = false;
         this._lastDebug = Date.now();
 
@@ -52,6 +55,17 @@ var Debugger = class
 
         let state = (this.enabled) ? 'en' : 'dis';
         this._runDebug(`debug ${state}abled`);
+    }
+
+    get color()
+    {
+        return this.name_printer.color;
+    }
+
+    set color(value)
+    {
+        this.name_printer.color = value;
+        this.time_printer.color = this.name_printer.color;
     }
 
     get debug()
